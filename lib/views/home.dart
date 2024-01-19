@@ -1,9 +1,13 @@
+// import 'package:audio_player/Views/player.dart';
+// import 'package:audio_player/consts/colors.dart';
+// import 'package:audio_player/consts/text_style.dart';
+// import 'package:audio_player/controllers/player_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:music_player/Views/player.dart';
 import 'package:music_player/consts/colors.dart';
-import 'package:music_player/consts/text_styles.dart';
+import 'package:music_player/consts/text_style.dart';
 import 'package:music_player/controllers/player_controller.dart';
-import 'package:music_player/views/palyer.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -91,10 +95,10 @@ class MyHomePage extends StatelessWidget {
                                     : null,
                                 onTap: () {
                                   Get.to(() => Player(
-                                        data: snapshot.data![index],
+                                        data: snapshot.data!,
                                       ));
-                                  // controller.playSongs(
-                                  //     snapshot.data![index].uri, index);
+                                  controller.playSongs(
+                                      snapshot.data![index].uri, index);
                                 },
                               ),
                             ));
