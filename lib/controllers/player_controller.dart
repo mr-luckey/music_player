@@ -21,16 +21,25 @@ class PlayerController extends GetxController {
   void onInit() {
     super.onInit();
     checkPermission();
+    setupPlayerListeners();
+  }
+
+  void setupPlayerListeners() {
+    audioPlayer.playerStateStream.listen((playerState) {
+      if (playerState.processingState == ProcessingState.completed) {
+        isplaying(false);
+      }
+    });
   }
 
   updatePosition() {
     audioPlayer.durationStream.listen((d) {
       duration.value = d.toString().split(".")[0];
-      max.value = d!.inSeconds.toDouble();  //control the slider
+      max.value = d!.inSeconds.toDouble(); //control the slider
     });
     audioPlayer.positionStream.listen((p) {
       position.value = p.toString().split(".")[0];
-      value.value = p.inSeconds.toDouble();//control the slider
+      value.value = p.inSeconds.toDouble(); //control the slider
     });
   }
 

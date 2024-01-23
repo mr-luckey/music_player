@@ -1,7 +1,3 @@
-// import 'package:audio_player/Views/player.dart';
-// import 'package:audio_player/consts/colors.dart';
-// import 'package:audio_player/consts/text_style.dart';
-// import 'package:audio_player/controllers/player_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/Views/player.dart';

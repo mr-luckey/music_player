@@ -1,6 +1,3 @@
-// import 'package:audio_player/consts/colors.dart';
-// import 'package:audio_player/consts/text_style.dart';
-// import 'package:audio_player/controllers/player_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/consts/colors.dart';
@@ -22,25 +19,27 @@ class Player extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Column(
           children: [
-            Expanded(
-                child: Container(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    height: 250,
-                    width: 250,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: QueryArtworkWidget(
-                        id: data[controller.playIndex.value].id,
-                        type: ArtworkType.AUDIO,
-                        artworkHeight: double.infinity,
-                        artworkWidth: double.infinity,
-                        nullArtworkWidget: Icon(
-                          Icons.music_note,
-                          color: whiteColor,
-                          size: 48,
-                        )))),
+            Obx(
+              () => Expanded(
+                  child: Container(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      height: 250,
+                      width: 250,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: QueryArtworkWidget(
+                          id: data[controller.playIndex.value].id,
+                          type: ArtworkType.AUDIO,
+                          artworkHeight: double.infinity,
+                          artworkWidth: double.infinity,
+                          nullArtworkWidget: Icon(
+                            Icons.music_note,
+                            color: whiteColor,
+                            size: 48,
+                          )))),
+            ),
             SizedBox(
               height: 12,
             ),
@@ -58,8 +57,10 @@ class Player extends StatelessWidget {
                 () => Column(
                   children: [
                     Text(
-                      //data[].displayNameWOExt,
                       data[controller.playIndex.value].displayNameWOExt,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       style:
                           ourStyle(color: bgDarkColor, family: bold, size: 24),
                     ),
@@ -67,7 +68,10 @@ class Player extends StatelessWidget {
                       height: 12,
                     ),
                     Text(
-                      data[controller.playIndex.value].toString(),
+                      data[controller.playIndex.value].artist.toString(),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       style: ourStyle(
                           color: bgDarkColor, family: regular, size: 20),
                     ),
@@ -112,7 +116,7 @@ class Player extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               controller.playSongs(
-                                  data[controller.playIndex.value].uri,
+                                  data[controller.playIndex.value - 1].uri,
                                   controller.playIndex.value - 1);
                             },
                             icon: Icon(
@@ -132,7 +136,7 @@ class Player extends StatelessWidget {
                                       controller.audioPlayer.pause();
                                       controller.isplaying(false);
                                     } else {
-                                      controller.audioPlayer.pause();
+                                      controller.audioPlayer.play();
                                       controller.isplaying(true);
                                     }
                                   },
@@ -151,7 +155,7 @@ class Player extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               controller.playSongs(
-                                  data[controller.playIndex.value].uri,
+                                  data[controller.playIndex.value + 1].uri,
                                   controller.playIndex.value + 1);
                             },
                             icon: Icon(
@@ -164,7 +168,8 @@ class Player extends StatelessWidget {
                   ],
                 ),
               ),
-            ))
+            )),
+            // )
           ],
         ),
       ),
