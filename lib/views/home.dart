@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/Views/player.dart';
-// import 'package:music_player/Views/view_screen.dart';
 import 'package:music_player/consts/colors.dart';
 import 'package:music_player/consts/text_style.dart';
 import 'package:music_player/controllers/player_controller.dart';
@@ -35,7 +34,7 @@ class MyHomePage extends StatelessWidget {
               _DiscoverMusic(),
               _TrendingMusic(controller: controller),
               PLayListCard(controller: controller),
-              // ViewScreen(controller: controller)
+              //ViewScreen(controller: controller)
             ],
           ),
         ),
@@ -93,10 +92,9 @@ class _TrendingMusic extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         physics: BouncingScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount:
-                              1, 
-                          crossAxisSpacing: 10, 
-                          mainAxisSpacing: 10, 
+                          crossAxisCount: 1,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
                           childAspectRatio: 0.9,
                         ),
                         itemCount: 6,

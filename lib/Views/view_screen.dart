@@ -73,8 +73,7 @@ class ViewScreen extends StatelessWidget {
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       // itemCount: 3,
-                      itemCount: snapshot
-                          .data!.length,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
@@ -131,13 +130,13 @@ class ViewScreen extends StatelessWidget {
                                 SizedBox(
                                   width: 10,
                                 ),
-
-                              
-                                Icon(
-                                  Icons.play_circle,
-                                  color: whiteColor,
-                                  size: 26,
-                                ),
+                                if (controller.playIndex.value == index &&
+                                    controller.isplaying.value)
+                                  Icon(
+                                    Icons.play_circle,
+                                    color: whiteColor,
+                                    size: 26,
+                                  ),
                               ],
                             ),
                           ),
