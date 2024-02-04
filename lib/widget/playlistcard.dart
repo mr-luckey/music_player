@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:get/get_core/src/get_main.dart';
 import 'package:music_player/Views/player.dart';
 import 'package:music_player/consts/colors.dart';
 import 'package:music_player/consts/text_style.dart';
@@ -57,7 +56,7 @@ class PLayListCard extends StatelessWidget {
                         physics: BouncingScrollPhysics(),
                         itemCount: 3,
                         // itemCount: snapshot.data!
-                        //     .length, 
+                        //     .length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
@@ -114,15 +113,13 @@ class PLayListCard extends StatelessWidget {
                                   SizedBox(
                                     width: 10,
                                   ),
-
-                                  // if (controller.playIndex.value ==
-                                  //         index &&
-                                  //     controller.isplaying.value)
-                                  Icon(
-                                    Icons.play_circle,
-                                    color: whiteColor,
-                                    size: 26,
-                                  ),
+                                  if (controller.playIndex.value == index &&
+                                      controller.isplaying.value)
+                                    Icon(
+                                      Icons.play_circle,
+                                      color: whiteColor,
+                                      size: 26,
+                                    ),
                                 ],
                               ),
                             ),

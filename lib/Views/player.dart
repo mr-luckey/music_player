@@ -7,13 +7,33 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 class Player extends StatelessWidget {
   final List<SongModel> data;
-  const Player({super.key, required this.data});
+  const Player({
+    super.key,
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<PlayerController>();
-    return Scaffold(
+    // final waveformPoints = <int>[
+    //   0,
+    //   1,
+    //   2,
+    //   3,
+    //   4,
+    //   6,
+    //   5,
+    //   8,
+    //   9,
+    //   10,
+    //   15,
+    //   13,
+    //   0,
+    //   20,
+    //   15
+    // ]; 
 
+    return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -68,23 +88,28 @@ class Player extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text(
-                    data[controller.playIndex.value].displayNameWOExt,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: ourStyle(color: whiteColor, family: bold, size: 24),
+                  Obx(
+                    () => Text(
+                      data[controller.playIndex.value].displayNameWOExt,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style:
+                          ourStyle(color: whiteColor, family: bold, size: 24),
+                    ),
                   ),
                   SizedBox(
                     height: 12,
                   ),
-                  Text(
-                    data[controller.playIndex.value].artist.toString(),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style:
-                        ourStyle(color: whiteColor, family: regular, size: 20),
+                  Obx(
+                    () => Text(
+                      data[controller.playIndex.value].artist.toString(),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: ourStyle(
+                          color: whiteColor, family: regular, size: 20),
+                    ),
                   ),
                   SizedBox(
                     height: 20,
@@ -92,33 +117,60 @@ class Player extends StatelessWidget {
                   Obx(
                     () => Row(
                       children: [
-                        Text(
-                          controller.position.value,
-                          style: ourStyle(color: whiteColor),
-                        ),
+                  Text(
+                    controller.position.value,
+                    style: ourStyle(color: whiteColor),
+                  ),
 
-                
-                        Expanded(
-                            child: Slider(
-                                thumbColor: sliderColor,
-                                inactiveColor: whiteColor,
-                                activeColor: sliderColor,
-                                min: Duration(seconds: 0)
-                                    .inSeconds
-                                    .toDouble(), //control the slider
-                                max: controller.max.value, //control the slider
-                                value:
-                                    controller.value.value, //control the slider
-                                onChanged: (newValue) {
-                                  controller.changeDurationnToSeconds(
-                                      //control the slider
-                                      newValue.toInt());
-                                  newValue = newValue;
-                                })),
-                        Text(
-                          controller.duration.value,
-                          style: ourStyle(color: whiteColor),
-                        )
+                  // Obx(
+                  //   () => GestureDetector(
+                  //     onHorizontalDragUpdate: (details) {
+                  //       // Calculate the new position in the song
+                  //       final renderBox =
+                  //           context.findRenderObject() as RenderBox;
+                  //       final localPoint =
+                  //           renderBox.globalToLocal(details.globalPosition);
+                  //       final newProgress =
+                  //           localPoint.dx / renderBox.size.width;
+                  //       // Seek the audio player to the new position
+                  //       final newDuration = Duration(
+                  //         seconds: (newProgress * controller.max.value).toInt(),
+                  //       );
+                  //       controller.audioPlayer.seek(newDuration);
+                  //     },
+                  //     child: CustomPaint(
+                  //       size: Size(double.infinity,
+                  //           100), // Set a fixed height for the waveform
+                  //       painter: WaveformPainter(
+                  //         waveformPoints: waveformPoints,
+                  //         progress:
+                  //             controller.value.value / controller.max.value,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  Expanded(
+                      child: Slider(
+                          thumbColor: sliderColor,
+                          inactiveColor: whiteColor,
+                          activeColor: sliderColor,
+                          min: Duration(seconds: 0)
+                              .inSeconds
+                              .toDouble(), //control the slider
+                          max: controller.max.value, //control the slider
+                          value:
+                              controller.value.value, //control the slider
+                          onChanged: (newValue) {
+                            controller.changeDurationnToSeconds(
+                                //control the slider
+                                newValue.toInt());
+                            newValue = newValue;
+                          })),
+                  Text(
+                    controller.duration.value,
+                    style: ourStyle(color: whiteColor),
+                  )
                       ],
                     ),
                   ),
