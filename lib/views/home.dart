@@ -34,7 +34,7 @@ class MyHomePage extends StatelessWidget {
               _DiscoverMusic(),
               _TrendingMusic(controller: controller),
               PLayListCard(controller: controller),
-              //ViewScreen(controller: controller)
+              // ViewScreen(controller: controller)
             ],
           ),
         ),
@@ -133,49 +133,63 @@ class _TrendingMusic extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 2),
-                                            child: Text(
-                                              snapshot.data![index]
-                                                  .displayNameWOExt,
-                                              style: ourStyle(
-                                                  family: bold, size: 15),
-                                              overflow: TextOverflow.ellipsis,
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10, vertical: 2),
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.vertical,
+                                                child: Text(
+                                                  snapshot.data![index]
+                                                      .displayNameWOExt,
+                                                  style: ourStyle(
+                                                      family: bold, size: 15),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: Text(
-                                              "${snapshot.data![index].artist}",
-                                              style: ourStyle(
-                                                  family: regular, size: 12),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          controller.playIndex.value == index &&
-                                                  controller.isplaying.value
-                                              ? Icons.pause
-                                              : Icons.play_circle,
-                                          color: whiteColor,
+                                            Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 8),
+                                                child: SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  child: Text(
+                                                    "${snapshot.data![index].artist}",
+                                                    style: ourStyle(
+                                                        family: regular,
+                                                        size: 12),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                )),
+                                          ],
                                         ),
-                                        onPressed: () {
-                                          controller.playSongs(
-                                              snapshot.data![index].uri, index);
-                                        },
-                                      ),
-                                    ],
+                                        IconButton(
+                                          icon: Icon(
+                                            controller.playIndex.value ==
+                                                        index &&
+                                                    controller.isplaying.value
+                                                ? Icons.pause
+                                                : Icons.play_circle,
+                                            color: whiteColor,
+                                          ),
+                                          onPressed: () {
+                                            controller.playSongs(
+                                                snapshot.data![index].uri,
+                                                index);
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   )
                                 ],
                               ),
@@ -274,14 +288,14 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: Icon(
-        Icons.grid_view_rounded,
-        color: Colors.white,
-      ),
+      // leading: Icon(
+      //   Icons.grid_view_rounded,
+      //   color: Colors.white,
+      // ),
       actions: [
         Container(
           margin: EdgeInsets.only(right: 20),
-          child: CircleAvatar(),
+          // child: CircleAvatar(),
         )
       ],
     );
