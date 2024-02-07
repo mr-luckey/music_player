@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/Views/home.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
 Future<void> main()async {
-     WidgetsFlutterBinding.ensureInitialized();
- await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.musicplayer.id.channel.audio',
-    androidNotificationChannelName: 'Audio Playback',
-    androidNotificationOngoing: true,
-  );
+
   runApp(const MyApp());
 }
 

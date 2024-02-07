@@ -1,17 +1,22 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
-//import 'package:just_audio_background/just_audio_background.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+enum PlayMode { loopAll, shuffle, repeatCurrent, inOrder }
+
 class PlayerController extends GetxController {
-  final List<SongModel> data = [];
+  var playMode = PlayMode.loopAll.obs;
+  var isModeTextVisible = false.obs;
+
+  var songs = <SongModel>[].obs;
 
   final audioQuery = OnAudioQuery();
   final audioPlayer = AudioPlayer();
-  RxDouble progress = 0.0.obs;
+
+  //RxDouble progress = 0.0.obs;
   var playIndex = 0.obs;
   var isplaying = false.obs;
 
@@ -26,6 +31,91 @@ class PlayerController extends GetxController {
     super.onInit();
     checkPermission();
     setupPlayerListeners();
+    setupSongCompletionListener();
+    //playNextSongLoopAll();
+  }
+
+  void togglePlayMode() {
+    PlayMode nextMode;
+    switch (playMode.value) {
+      case PlayMode.loopAll:
+        nextMode = PlayMode.shuffle;
+        break;
+      case PlayMode.shuffle:
+        nextMode = PlayMode.repeatCurrent;
+        break;
+      case PlayMode.repeatCurrent:
+        nextMode = PlayMode.inOrder;
+        break;
+      case PlayMode.inOrder:
+      default:
+        nextMode = PlayMode.loopAll;
+        break;
+    }
+    isModeTextVisible.value = true;
+    Future.delayed(Duration(seconds: 1), () {
+      isModeTextVisible.value = false;
+    });
+    playMode.value = nextMode;
+  }
+
+  void setupSongCompletionListener() {
+    audioPlayer.playerStateStream.listen((playerState) {
+      if (playerState.processingState == ProcessingState.completed) {
+        switch (playMode.value) {
+          case PlayMode.loopAll:
+            playNextSongLoopAll();
+            break;
+          case PlayMode.shuffle:
+            playRandomSong();
+            break;
+          case PlayMode.repeatCurrent:
+            replayCurrentSong();
+            break;
+          case PlayMode.inOrder:
+            playNextSongInOrder();
+            break;
+        }
+      }
+    });
+  }
+
+  void playNextSongLoopAll() {
+    playIndex.value =
+        (playIndex.value + 1) % songs.length; // Loop back to 0 if at the end
+    playCurrentSong();
+  }
+
+  void playRandomSong() {
+    Random rnd = Random();
+    playIndex.value = rnd.nextInt(songs.length);
+    playCurrentSong();
+  }
+
+  void replayCurrentSong() {
+    playCurrentSong();
+  }
+
+  void playNextSongInOrder() {
+    if (playIndex.value < songs.length - 1) {
+      playIndex.value += 1;
+    } else {
+      // To stop playback:
+      // audioPlayer.stop();
+      // OR to loop to the first song:
+      playIndex.value = 0;
+    }
+    playCurrentSong();
+  }
+
+  void playCurrentSong() {
+    if (songs.isNotEmpty &&
+        playIndex.value >= 0 &&
+        playIndex.value < songs.length) {
+      var songUri = songs[playIndex.value].data;
+
+      audioPlayer.setUrl(songUri);
+    }
   }
 
   void setupPlayerListeners() {
@@ -55,7 +145,7 @@ class PlayerController extends GetxController {
   playSongs(String? uri, index) {
     playIndex.value = index;
     //final List<SongModel> data;
-    // final song = data[playIndex.value];
+    //  final song = songs[playIndex.value];
 
     // // Create a MediaItem for background audio metadata
     // final mediaItem = MediaItem(
@@ -68,13 +158,16 @@ class PlayerController extends GetxController {
 
     try {
       audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
-      JustAudioBackground.init();
-      final audioSource = AudioSource.uri(Uri.parse(uri!));
-      audioPlayer.setAudioSource(audioSource, preload: true);
+      //JustAudioBackground.init();
+      //final audioSource = AudioSource.uri(Uri.parse(uri!));
+      //audioPlayer.setAudioSource(audioSource, preload: true);
       audioPlayer.play();
+
+      audioPlayer.setUrl(uri);
       isplaying.value = true;
       updatePosition();
     } on Exception catch (e) {
+      print('Error playing audio: $e');
       debugPrint(e.toString());
     }
   }
